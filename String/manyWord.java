@@ -25,7 +25,6 @@ public class manyWord {
                 result = '?';
             }
         }
-
         System.out.println(result);
     }
 }
