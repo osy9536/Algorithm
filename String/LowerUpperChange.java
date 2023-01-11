@@ -16,6 +16,5 @@ public class LowerUpperChange {
             }
         }
         System.out.println(sb);
-
     }
 }
