@@ -20,7 +20,7 @@ public class FindNum {
         for(int i = 0; i<n2; i++){
             if (Arrays.binarySearch(arr, Integer.parseInt(st.nextToken())) >= 0) {
                 System.out.println(1);
-            } 
+            }
             else System.out.println(0);
         }
 
