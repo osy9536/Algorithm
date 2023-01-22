@@ -8,21 +8,20 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int j =0;
-        int[] arr = new int[n];
+        StringBuilder sb= new StringBuilder();
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             list.add(i+1);
         }
         while (j<n) {
-            arr[j] = list.get(0);
+            sb.append(list.get(0));
+            sb.append(" ");
             j++;
             list.remove(0);
             if(list.isEmpty()) break;
             list.add(list.get(0));
             list.remove(0);
         }
-        for (int i = 0; i < n; i++) {
-            System.out.print(arr[i]+ " ");
-        }
+        System.out.println(sb);
     }
 }
