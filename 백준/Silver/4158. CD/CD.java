@@ -14,11 +14,12 @@ public class Main {
 
             int cnt = 0;
             HashSet<Integer> list = new HashSet<>();
+            int[] arr = new int[a];
             for (int i = 0; i < a ; i++) {
-                list.add(Integer.parseInt(br.readLine()));
+                arr[i] = Integer.parseInt(br.readLine());
             }
             for (int i = 0; i < b; i++) {
-                if (list.contains(Integer.parseInt(br.readLine()))) {
+                if (Arrays.binarySearch(arr,Integer.parseInt(br.readLine()))>=0) {
                     cnt++;
                 }
             }
