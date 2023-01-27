@@ -3,7 +3,7 @@ class Solution {
         int answer = 0;
         for (int i = 0; i <my_string.length(); i++) {
             if (my_string.charAt(i) >= '0' && my_string.charAt(i) <= '9') {
-                answer += my_string.charAt(i)-'0';
+                answer += my_string.charAt(i)-48; 
             }
         }
         return answer;
