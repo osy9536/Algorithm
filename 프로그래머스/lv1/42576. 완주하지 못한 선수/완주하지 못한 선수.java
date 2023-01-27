@@ -1,7 +1,8 @@
 import java.util.HashMap;
-
+import java.util.Arrays;
+import java.util.LinkedList;
 class Solution {
-    public String solution(String[] participant, String[] completion) {
+    public static String solution(String[] participant, String[] completion) {
         String answer = "";
         HashMap<String, Integer> map = new HashMap<>();
         for (int i = 0; i <2*participant.length-1; i++) {
