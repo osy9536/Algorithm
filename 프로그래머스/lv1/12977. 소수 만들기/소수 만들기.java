@@ -2,7 +2,6 @@ import java.util.*;
 
 import static java.util.Collections.sort;
 
-/*string 받고 각 인덱스 추출 후 정렬, 정렬된 인덱스와 */
 class Solution {
     public static int solution(int[] nums) {
         int answer = 0;
