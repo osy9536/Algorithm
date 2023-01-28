@@ -4,10 +4,8 @@ class Solution {
         if (cipher.length() >= code) {
 
         }
-        for (int i = code-1; i < cipher.length(); i++) {
-            if((i+1)%code==0){
+        for (int i = code-1; i < cipher.length(); i=i+code) {
                 answer.append(cipher.charAt(i));
-            }
         }
         return answer;
     }
