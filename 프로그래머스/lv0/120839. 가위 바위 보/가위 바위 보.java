@@ -4,11 +4,11 @@ class Solution {
         char[] win = {'0', '2', '5'};
         for (int i = 0; i < rsp.length(); i++) {
             char c = rsp.charAt(i);
-            if (win[0] == c) {
-                answer.append(win[2]);
-            } else if (win[1] == c) {
-                answer.append(win[0]);
-            } else answer.append(win[1]);
+            if ('0' == c) {
+                answer.append('5');
+            } else if ('2' == c) {
+                answer.append('0');
+            } else answer.append('2');
         }
         return answer.toString();
     }
