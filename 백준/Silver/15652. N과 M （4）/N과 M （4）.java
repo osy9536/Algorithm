@@ -17,11 +17,11 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         arr = new int[M];
 
-        dfs(0);
+        dfs(0, 1);
         System.out.println(sb);
     }
 
-    private static void dfs(int depth) {
+    private static void dfs(int depth, int start) {
         if (depth == M) {
             for (int i = 0; i < M; i++) {
                 sb.append(arr[i]).append(" ");
@@ -29,12 +29,10 @@ public class Main {
             sb.append("\n");
             return;
         }
-        for (int i = 1; i <= N; i++) {
-            if (depth > 0 && i < arr[depth - 1]) {
-                continue;
-            }
+        for (int i = start; i <= N; i++) {
+
             arr[depth] = i;
-            dfs(depth + 1);
+            dfs(depth + 1, i);
         }
     }
 }
