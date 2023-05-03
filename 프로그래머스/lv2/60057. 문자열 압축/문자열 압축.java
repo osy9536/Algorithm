@@ -1,47 +1,44 @@
 class Solution {
-    public int solution(String s) {
+    int solution(String s) {
         int answer = s.length();
-        int length = s.length();
+        if (s.length() == 1) {
+            return 1;
+        }
+        String c = "";
 
-        // 문자열을 자를 수 있는 단위
-        for (int unit = 1; unit <= length / 2; unit++) {
+        for (int i = 1; i <= s.length(); i++) {
+
+            int point = 1;
             StringBuilder sb = new StringBuilder();
-
-            int count = 1;
-            String prev = s.substring(0, unit);
-
-            // 문자열을 자르고 비교
-            for (int i = unit; i < length; i += unit) {
-                String current = "";
-
-                // 현재 자르는 문자열이 남은 문자열보다 길이가 길 경우 예외처리
-                if (i + unit > length) {
-                    current = s.substring(i);
-                } else {
-                    current = s.substring(i, i + unit);
+            c = s.substring(0, i);
+            for (int j = i; j < s.length(); j += i) {
+                if (j + i > s.length()) {
+                    if (point > 1) sb.append(point);
+                    sb.append(c).append(s.substring(j));
+                    break;
                 }
-
-                // 이전 문자열과 같으면 카운트를 증가시키고, 아니면 문자열을 만들어줌
-                if (prev.equals(current)) {
-                    count++;
+                if (c.equals(s.substring(j, j + i))) {
+                    point++;
                 } else {
-                    if (count > 1) {
-                        sb.append(count);
+                    if (point == 1) {
+                        sb.append(c);
+                    } else {
+                        sb.append(point).append(c);
                     }
-                    sb.append(prev);
-                    prev = current;
-                    count = 1;
+                    c = s.substring(j, j + i);
+                    point = 1;
+                }
+                if (s.length() <= j + i) {
+                    if (point == 1) {
+                        sb.append(c);
+                    } else {
+                        sb.append(point).append(c);
+                    }
+                    c = s.substring(j, j + i);
+                    point = 1;
                 }
             }
-
-            // 마지막 문자열 처리
-            if (count > 1) {
-                sb.append(count);
-            }
-            sb.append(prev);
-
-            // 압축한 문자열의 길이가 더 짧으면 업데이트
-            answer = Math.min(answer, sb.length());
+            if (answer > sb.length() && sb.length() != 0) answer = sb.length();
         }
 
         return answer;
