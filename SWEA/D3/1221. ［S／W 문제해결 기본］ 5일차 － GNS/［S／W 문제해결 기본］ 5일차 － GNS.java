@@ -1,104 +1,49 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-//TITLE [S/W 문제해결 기본] 5일차 - GNS
 public class Solution {
+    enum Num {
+        ZRO("ZRO"), ONE("ONE"), TWO("TWO"), THR("THR"), FOR("FOR"),
+        FIV("FIV"), SIX("SIX"), SVN("SVN"), EGT("EGT"), NIN("NIN");
+
+        private final String name;
+
+        Num(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
+            st.nextToken(); // # 무시
             String s = st.nextToken();
-            String s2 = st.nextToken();
 
-            Node[] nodes = new Node[10];
+            Node[] nodes = new Node[Num.values().length];
             st = new StringTokenizer(br.readLine());
-
             while (st.hasMoreTokens()) {
-                switch (st.nextToken()) {
-                    case "ZRO":
-                        if (nodes[0] == null) {
-                            nodes[0] = new Node(1, "ZRO");
-                        } else {
-                            nodes[0].cnt++;
-                        }
-                        break;
-                    case "ONE":
-                        if (nodes[1] == null) {
-                            nodes[1] = new Node(1, "ONE");
-                        } else {
-                            nodes[1].cnt++;
-                        }
-                        break;
-                    case "TWO":
-                        if (nodes[2] == null) {
-                            nodes[2] = new Node(1, "TWO");
-                        } else {
-                            nodes[2].cnt++;
-                        }
-                        break;
-                    case "THR":
-                        if (nodes[3] == null) {
-                            nodes[3] = new Node(1, "THR");
-                        } else {
-                            nodes[3].cnt++;
-                        }
-                        break;
-                    case "FOR":
-                        if (nodes[4] == null) {
-                            nodes[4] = new Node(1, "FOR");
-                        } else {
-                            nodes[4].cnt++;
-                        }
-                        break;
-                    case "FIV":
-                        if (nodes[5] == null) {
-                            nodes[5] = new Node(1, "FIV");
-                        } else {
-                            nodes[5].cnt++;
-                        }
-                        break;
-                    case "SIX":
-                        if (nodes[6] == null) {
-                            nodes[6] = new Node(1, "SIX");
-                        } else {
-                            nodes[6].cnt++;
-                        }
-                        break;
-                    case "SVN":
-                        if (nodes[7] == null) {
-                            nodes[7] = new Node(1, "SVN");
-                        } else {
-                            nodes[7].cnt++;
-                        }
-                        break;
-                    case "EGT":
-                        if (nodes[8] == null) {
-                            nodes[8] = new Node(1, "EGT");
-                        } else {
-                            nodes[8].cnt++;
-                        }
-                        break;
-                    case "NIN":
-                        if (nodes[9] == null) {
-                            nodes[9] = new Node(1, "NIN");
-                        } else {
-                            nodes[9].cnt++;
-                        }
-                        break;
+                String num = st.nextToken();
+                int index = Num.valueOf(num).ordinal();
+                if (nodes[index] == null) {
+                    nodes[index] = new Node(1, num);
+                } else {
+                    nodes[index].cnt++;
                 }
             }
 
             StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < 10; j++) {
-                sb.append(repeat(nodes[j]));
+            for (Num num : Num.values()) {
+                sb.append(repeat(nodes[num.ordinal()]));
             }
-            System.out.println("#" + (i + 1));
-            System.out.println(sb);
-            System.out.println();
+            System.out.printf("#%d%n%s%n", i + 1, sb);
         }
     }
 
