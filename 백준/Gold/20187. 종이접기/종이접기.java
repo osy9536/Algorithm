@@ -2,22 +2,24 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         int k = Integer.parseInt(br.readLine());
-        int mul = 2*k;
-        char[] a = new char[mul*2];
-        int[][] ans = new int[mul][mul];
-        String input = br.readLine();
-        for (int i = 0; i < 2 * 2 * k-1; i++) {
-            a[i] = input.charAt(i);
+        char[] a = new char[k*2];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < 2 * k; i++) {
+            a[i] = st.nextToken().charAt(0);
         }
+
+        int[][] ans = new int[k*2][k*2];
         ans[0][0] = Integer.parseInt(br.readLine());
         int x = 1, y = 1;
 
-        for (int i = 2*2 * k - 1; i >= 0; i--) {
+        for (int i = 2 * k - 1; i >= 0; i--) {
             if (a[i] == 'L') {
                 for (int j = 0; j < x; j++) {
                     for (int l = 0; l < y; l++) {
