@@ -35,6 +35,8 @@ public class Solution {
     }
 
     private static void dfs(int depth, int x, int y, int distance) {
+        if(distance>min)return;
+
         if (depth == N) {
             distance += getDistance(x, y, office.x, office.y);
             min = Math.min(min, distance);
