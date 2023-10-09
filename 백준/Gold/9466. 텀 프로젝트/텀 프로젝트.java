@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.StringTokenizer;
 
@@ -43,10 +42,10 @@ public class Main {
             dfs(next);
         } else {
             if (!finished[next]) {
-                for (int i = next; i != start; i = num[i]) {
+                for (int i = next;true; i = num[i]) {
                     answer++;
+                    if(i==start)break;
                 }
-                answer++; // 사이클의 길이를 더해줍니다.
             }
         }
         finished[start] = true;
