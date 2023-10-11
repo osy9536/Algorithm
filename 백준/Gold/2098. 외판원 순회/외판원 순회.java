@@ -30,7 +30,7 @@ public class Main {
     private static int dfs(int city, int visited) {
         if (visited == (1 << n) - 1) {
             if (map[city][0] == 0) {
-                return INF;
+                return 11000000;
             }
             return map[city][0];
         }
