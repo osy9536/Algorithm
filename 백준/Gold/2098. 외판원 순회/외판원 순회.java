@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static final int INF = 16000000;
+    static final int INF = 5000000;
     static int[][] map;
     static int[][] dp;
     static int n;
