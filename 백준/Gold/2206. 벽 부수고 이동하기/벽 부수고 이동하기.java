@@ -1,81 +1,118 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[] dx = { -1, 0, 1, 0 };
-    static int[] dy = { 0, 1, 0, -1 };
+	static int map[][], temp[][];
+	static Node wall[];
+	static int N, M, min = Integer.MAX_VALUE;
+	static int dx[] = { 0, 1, 0, -1 };
+	static int dy[] = { 1, 0, -1, 0 };
+	static boolean visited[][][];
 
-    static class Node {
-        int x, y, depth, canBreak;
+	static class Node {
+		private int x;
+		private int y;
+		private boolean crush;
 
-        Node(int x, int y, int depth, int canBreak) {
-            this.x = x;
-            this.y = y;
-            this.depth = depth;
-            this.canBreak = canBreak;
-        }
-    }
+		public Node(int x, int y, boolean crush) {
+			super();
+			this.x = x;
+			this.y = y;
+			this.crush = crush;
+		}
 
-    static int N, M, answer;
-    static int[][] map;
-    static boolean[][][] visited; // 벽을 부순 여부를 고려한 방문 여부 배열
+		public int getX() {
+			return x;
+		}
 
-    public static void main(String[] args) throws NumberFormatException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-        answer = -1;
-        map = new int[N][M];
-        visited = new boolean[N][M][2]; // 벽을 부수고 방문한 경우와 부수지 않고 방문한 경우를 고려
+		public int getY() {
+			return y;
+		}
 
-        for (int i = 0; i < N; i++) {
-            String s = br.readLine();
-            for (int j = 0; j < M; j++) {
-                map[i][j] = s.charAt(j) - '0';
-            }
-        }
+		public boolean getCrush() {
+			return crush;
+		}
+	}
 
-        bfs();
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-        System.out.println(answer);
-    }
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
 
-    static void bfs() {
-        Queue<Node> q = new LinkedList<>();
-        q.add(new Node(0, 0, 1, 0)); // 시작점을 큐에 추가
-        visited[0][0][0] = true;
+		map = new int[N][M];
+		temp = new int[N][M];
+		wall = new Node[N * M];
+		String[] str;
+		int wallCnt = 0;
+		for (int i = 0; i < N; i++) {
+			str = br.readLine().split("");
+			for (int j = 0; j < M; j++) {
+				map[i][j] = Integer.parseInt(str[j]);
+				if (map[i][j] == 1) {
+					wall[wallCnt] = new Node(i, j, false);
+					wallCnt++;
+				}
+			}
+		}
 
-        while (!q.isEmpty()) {
-            Node cur = q.poll();
+		copy();
+		bfs();
+		if (min == Integer.MAX_VALUE)
+			min = -1;
+		System.out.println(min);
+	}
 
-            if (cur.x == N - 1 && cur.y == M - 1) {
-                answer = cur.depth;
-                return;
-            }
+	static void copy() {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < M; j++)
+				temp[i][j] = map[i][j];
+		}
+	}
 
-            for (int i = 0; i < 4; i++) {
-                int nx = cur.x + dx[i];
-                int ny = cur.y + dy[i];
-
-                if (nx >= 0 && ny >= 0 && nx < N && ny < M) {
-                    // 벽이 없는 경우
-                    if (map[nx][ny] == 0 && !visited[nx][ny][cur.canBreak]) {
-                        visited[nx][ny][cur.canBreak] = true;
-                        q.add(new Node(nx, ny, cur.depth + 1, cur.canBreak));
-                    }
-                    // 벽이 있는 경우
-                    else if (map[nx][ny] == 1 && cur.canBreak == 0 && !visited[nx][ny][1]) {
-                        visited[nx][ny][1] = true;
-                        q.add(new Node(nx, ny, cur.depth + 1, 1));
-                    }
-                }
-            }
-        }
-    }
+	static void bfs() {
+		Queue<Node> q = new ArrayDeque<>();
+		visited = new boolean[2][N][M];
+		q.offer(new Node(0, 0, false));
+		visited[0][0][0] = true;
+		visited[1][0][0] = true;
+		int cnt = 1;
+		while (!q.isEmpty()) {
+			int size = q.size();
+			for (int i = 0; i < size; i++) {
+				Node cur = q.poll();
+				int curX = cur.getX();
+				int curY = cur.getY();
+				boolean curCrush = cur.getCrush();
+				if (curX == N - 1 && curY == M - 1) {
+					min = min < cnt ? min : cnt;
+					return;
+				}
+				for (int j = 0; j < 4; j++) {
+					int nextX = curX + dx[j];
+					int nextY = curY + dy[j];
+					if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < M) {
+						if (temp[nextX][nextY] == 0 ) {
+							if(!visited[0][nextX][nextY] && !curCrush) {
+								q.offer(new Node(nextX, nextY, false));
+								visited[0][nextX][nextY] = true;
+							} else if(!visited[1][nextX][nextY]) {
+								q.offer(new Node(nextX, nextY, true));
+								visited[1][nextX][nextY] = true;
+							}
+						} else if (temp[nextX][nextY] == 1 && !visited[1][nextX][nextY] && !curCrush) {
+							q.offer(new Node(nextX, nextY, true));
+							visited[1][nextX][nextY] = true;
+						}
+					}
+				}
+			}
+			cnt++;
+		}
+	}
 }
