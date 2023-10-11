@@ -7,8 +7,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int map[][];
-	static Node wall[];
-	static int N, M, min = Integer.MAX_VALUE;
+	static int N, M;
 	static int dx[] = { 0, 1, 0, -1 };
 	static int dy[] = { 1, 0, -1, 0 };
 	static boolean visited[][][];
@@ -46,18 +45,11 @@ public class Main {
 		M = Integer.parseInt(st.nextToken());
 
 		map = new int[N][M];
-		wall = new Node[N * M];
 		String[] str;
-		int wallCnt = 0;
 		for (int i = 0; i < N; i++) {
 			str = br.readLine().split("");
-			for (int j = 0; j < M; j++) {
+			for (int j = 0; j < M; j++)
 				map[i][j] = Integer.parseInt(str[j]);
-				if (map[i][j] == 1) {
-					wall[wallCnt] = new Node(i, j, 0);
-					wallCnt++;
-				}
-			}
 		}
 
 		System.out.println(bfs());
