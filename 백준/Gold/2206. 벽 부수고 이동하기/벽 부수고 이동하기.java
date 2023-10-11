@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int map[][], temp[][];
+	static int map[][];
 	static Node wall[];
 	static int N, M, min = Integer.MAX_VALUE;
 	static int dx[] = { 0, 1, 0, -1 };
@@ -16,9 +16,9 @@ public class Main {
 	static class Node {
 		private int x;
 		private int y;
-		private boolean crush;
+		private int crush;
 
-		public Node(int x, int y, boolean crush) {
+		public Node(int x, int y, int crush) {
 			super();
 			this.x = x;
 			this.y = y;
@@ -33,7 +33,7 @@ public class Main {
 			return y;
 		}
 
-		public boolean getCrush() {
+		public int getCrush() {
 			return crush;
 		}
 	}
@@ -46,7 +46,6 @@ public class Main {
 		M = Integer.parseInt(st.nextToken());
 
 		map = new int[N][M];
-		temp = new int[N][M];
 		wall = new Node[N * M];
 		String[] str;
 		int wallCnt = 0;
@@ -55,30 +54,19 @@ public class Main {
 			for (int j = 0; j < M; j++) {
 				map[i][j] = Integer.parseInt(str[j]);
 				if (map[i][j] == 1) {
-					wall[wallCnt] = new Node(i, j, false);
+					wall[wallCnt] = new Node(i, j, 0);
 					wallCnt++;
 				}
 			}
 		}
 
-		copy();
-		bfs();
-		if (min == Integer.MAX_VALUE)
-			min = -1;
-		System.out.println(min);
+		System.out.println(bfs());
 	}
 
-	static void copy() {
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++)
-				temp[i][j] = map[i][j];
-		}
-	}
-
-	static void bfs() {
+	static int bfs() {
 		Queue<Node> q = new ArrayDeque<>();
 		visited = new boolean[2][N][M];
-		q.offer(new Node(0, 0, false));
+		q.offer(new Node(0, 0, 0));
 		visited[0][0][0] = true;
 		visited[1][0][0] = true;
 		int cnt = 1;
@@ -88,25 +76,19 @@ public class Main {
 				Node cur = q.poll();
 				int curX = cur.getX();
 				int curY = cur.getY();
-				boolean curCrush = cur.getCrush();
-				if (curX == N - 1 && curY == M - 1) {
-					min = min < cnt ? min : cnt;
-					return;
-				}
+				int curCrush = cur.getCrush();
+				if (curX == N - 1 && curY == M - 1)
+					return cnt;
 				for (int j = 0; j < 4; j++) {
 					int nextX = curX + dx[j];
 					int nextY = curY + dy[j];
-					if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < M) {
-						if (temp[nextX][nextY] == 0 ) {
-							if(!visited[0][nextX][nextY] && !curCrush) {
-								q.offer(new Node(nextX, nextY, false));
-								visited[0][nextX][nextY] = true;
-							} else if(!visited[1][nextX][nextY]) {
-								q.offer(new Node(nextX, nextY, true));
-								visited[1][nextX][nextY] = true;
-							}
-						} else if (temp[nextX][nextY] == 1 && !visited[1][nextX][nextY] && !curCrush) {
-							q.offer(new Node(nextX, nextY, true));
+					if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < M && !visited[curCrush][nextX][nextY]) {
+						if (map[nextX][nextY] == 0) {
+							q.offer(new Node(nextX, nextY, curCrush));
+							visited[curCrush][nextX][nextY] = true;
+						} else {
+							if(curCrush==1) continue;
+							q.offer(new Node(nextX, nextY, 1));
 							visited[1][nextX][nextY] = true;
 						}
 					}
@@ -114,5 +96,6 @@ public class Main {
 			}
 			cnt++;
 		}
+		return -1;
 	}
 }
