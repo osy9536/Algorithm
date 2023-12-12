@@ -30,14 +30,17 @@ public class Main {
         }
 
         init(arr, 1, 1, n);
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int l = Integer.parseInt(st.nextToken());
             int r = Integer.parseInt(st.nextToken());
 
-            System.out.println(find(1, 1, n, l, r));
+            sb.append(find(1, 1, n, l, r)).append("\n");
         }
+
+        System.out.print(sb);
     }
 
     static long init(int[] arr, int node, int start, int end) {
