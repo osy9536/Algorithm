@@ -16,9 +16,9 @@ public class Main {
         StringBuilder sb = new StringBuilder();
 
         int n = Integer.parseInt(br.readLine());
-        int h = (int) Math.ceil(Math.log(n) / Math.log(2));
-
-        tree = new int[SIZE*4];
+        int h = (int) Math.ceil(Math.log(SIZE) / Math.log(2));
+        int treeSize = (int) Math.pow(2, h + 1);
+        tree = new int[treeSize];
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             int op = Integer.parseInt(st.nextToken());
