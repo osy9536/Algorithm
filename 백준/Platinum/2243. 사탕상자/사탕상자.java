@@ -47,14 +47,15 @@ public class Main {
 
     static int findCandy(int start, int end, int node, int idx) {
         if (start == end) {
-            update(1, SIZE, 1, start, -1);
             return start;
         }
 
         int mid = (start + end) / 2;
         if (idx <= tree[node * 2]) {
+            tree[node*2]--;
             return findCandy(start, mid, node * 2, idx);
         } else {
+            tree[node*2+1]--;
             return findCandy(mid + 1, end, node * 2 + 1, idx - tree[node * 2]);
         }
     }
