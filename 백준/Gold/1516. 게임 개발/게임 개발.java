@@ -52,7 +52,7 @@ public class Main {
             sb.append(dp[i]).append("\n");
         }
 
-        System.out.println(sb);
+        System.out.print(sb);
     }
 
     static int recur(int num) {
@@ -71,4 +71,3 @@ public class Main {
         return dp[num];
     }
 }
-
