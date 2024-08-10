@@ -71,13 +71,11 @@ public class Main {
         dist = new long[n + 1];
         inQueue = new boolean[n + 1];
         count = new int[n + 1];
-        Arrays.fill(dist, INF);
 
         Queue<Integer> queue = new LinkedList<>();
 
         // 모든 노드에서 시작 (음의 사이클이 어느 노드에서 시작될지 모르므로)
         for (int i = 1; i <= n; i++) {
-            dist[i] = 0;
             queue.offer(i);
             inQueue[i] = true;
         }
